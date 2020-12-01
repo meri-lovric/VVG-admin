@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-vvgadmin-dev-175554-authRole",
+      "UnauthRoleArn": "arn:aws:iam::554753795638:role/amplify-vvgadmin-dev-175554-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::554753795638:role/amplify-vvgadmin-dev-175554-authRole",
+      "Region": "eu-central-1",
+      "DeploymentBucketName": "amplify-vvgadmin-dev-175554-deployment",
+      "UnauthRoleName": "amplify-vvgadmin-dev-175554-unauthRole",
+      "StackName": "amplify-vvgadmin-dev-175554",
+      "StackId": "arn:aws:cloudformation:eu-central-1:554753795638:stack/amplify-vvgadmin-dev-175554/c099fb40-3263-11eb-b8c6-061de7083ac6",
+      "AmplifyAppId": "d2usgexpejb5ox"
+    }
+  }
+}
