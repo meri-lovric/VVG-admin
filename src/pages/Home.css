@@ -1,0 +1,11 @@
+.logo {
+	height: 10vh !important;
+	width: auto;
+	padding-left: 1rem;
+	padding-right: 1rem;
+}
+.header-content {
+	display: flex;
+	align-items: center;
+	font-family: fantasy;
+}
