@@ -4,7 +4,6 @@ import {
 	IonCardHeader,
 	IonCardSubtitle,
 	IonCol,
-	IonContent,
 	IonGrid,
 	IonHeader,
 	IonImg,
@@ -17,13 +16,18 @@ import { API } from "aws-amplify";
 import React from "react";
 import * as queries from "../graphql/queries";
 import "./ExploreContainer.css";
-interface ExploreContainerProps {}
+interface ExploreContainerProps {
+	searchTerm: string;
+}
 interface ExploreContainerState {
 	data: any;
 	isLoaded: Boolean;
 }
 
-class ExploreContainer extends React.Component<{}, ExploreContainerState> {
+class ExploreContainer extends React.Component<
+	ExploreContainerProps,
+	ExploreContainerState
+> {
 	groupedData: any;
 	constructor(props: any) {
 		super(props);
@@ -38,33 +42,11 @@ class ExploreContainer extends React.Component<{}, ExploreContainerState> {
 			// @ts-ignore
 			let posts = allTodos.data.listTodos.items;
 
-			console.log(posts);
 			let group = posts.reduce((r: any, a: any) => {
-				console.log("a", a);
-				console.log("r", r);
 				r[a.number] = [...(r[a.number] || []), a];
 				return r;
 			}, {});
-			console.log("Grouped posts", group);
-			console.log(
-				"FIRST FROM POST: ",
-				Object.keys(group)[0]
-			); /* 
-				_el1..createdAt > _el2[0].createdAt
-					? -1
-					: _el1[0].createdAt < _el2[0].createdAt
-					? 1
-					: 0 */ //	); //this.setState({ data: group, isLoaded: true });
-			/* group.sort((_el1: any, _el2: any) => {
-				console.log("WHY");
-				console.log(Object.keys(_el1)[0])
-			} */ console.log(
-				"group",
-				group
-			);
 			var result = Object.keys(group).map((key) => [Number(key), group[key]]);
-			//result = Array.from(result);
-			console.log("RESULT: ", result);
 
 			function compare(a: any, b: any) {
 				if (a[1][0].createdAt > b[1][0].createdAt) {
@@ -77,7 +59,6 @@ class ExploreContainer extends React.Component<{}, ExploreContainerState> {
 			}
 
 			result.sort(compare);
-			console.log("Sorted: ", result);
 			this.setState({ data: result, isLoaded: true });
 			/* 
 			const map: Array<any> = [];
@@ -131,10 +112,11 @@ class ExploreContainer extends React.Component<{}, ExploreContainerState> {
  */
 	render() {
 		if (this.state.isLoaded) {
-			return (
-				<IonGrid>
-					{
-						/* this.state.data.sort((_el1: any, _el2: any) =>
+			if (!this.props.searchTerm) {
+				return (
+					<IonGrid>
+						{
+							/* this.state.data.sort((_el1: any, _el2: any) =>
 							_el1.createdAt > _el2.createdAt
 								? -1
 								: _el1.createdAt < _el2.createdAt
@@ -143,56 +125,126 @@ class ExploreContainer extends React.Component<{}, ExploreContainerState> {
 						) &&
 							// this.groupBy(this.state.data,'createdAt')
 							// && */
-						this.state.data.map((_element: any) => {
-							console.log(_element);
-							return (
-								<>
-									<IonHeader>
-										<IonToolbar>
-											<IonTitle>{_element[1][0].number}</IonTitle>
-											<IonCardSubtitle>
-												{_element[1][0].person +
-													" - " +
-													_element[1][0].description}
-													{console.log(_element[1][0])}
-											</IonCardSubtitle>
-										</IonToolbar>
-									</IonHeader>
+							this.state.data.map((_element: any, index: number) => {
+								return (
+									<div key={index}>
+										<IonHeader>
+											<IonToolbar>
+												<IonTitle className="order-title">
+													{_element[1][0].number}
+												</IonTitle>
+												<IonCardSubtitle className="order-subtitle-person">
+													{_element[1][0].person}
+												</IonCardSubtitle>
+												<IonCardSubtitle className="order-subtitle">
+													{_element[1][0].description}
+												</IonCardSubtitle>
+											</IonToolbar>
+										</IonHeader>
 
-									<IonRow className="card-row">
-										{" "}
-										{_element[1].map((_el: any) => {
-											return (
-												<IonCol className="column">
-													<IonCard className="card">
-														<IonCardHeader>
-															<IonCardSubtitle>
-																{new Date(_el.createdAt).toUTCString()}
-															</IonCardSubtitle>
-														</IonCardHeader>
+										<IonRow className="card-row">
+											{" "}
+											{_element[1].map((_el: any, index: number) => {
+												return (
+													<IonCol key={index} className="column">
+														<IonCard className="card">
+															<IonCardHeader>
+																<IonCardSubtitle>
+																	{new Date(_el.createdAt).toUTCString()}
+																</IonCardSubtitle>
+															</IonCardHeader>
 
-														<IonCardContent className="content">
-															<IonImg
-																className="image"
-																src={
-																	"https://s3-eu-central-1.amazonaws.com/" +
-																	_el.file.bucket +
-																	"/public/" +
-																	_el.file.key
-																}
-															/>
-														</IonCardContent>
-													</IonCard>
-												</IonCol>
-											);
-										})}
-									</IonRow>
-								</>
-							);
-						})
-					}
-				</IonGrid>
-			);
+															<IonCardContent className="content">
+																<IonImg
+																	className="image"
+																	src={
+																		"https://s3-eu-central-1.amazonaws.com/" +
+																		_el.file.bucket +
+																		"/public/" +
+																		_el.file.key
+																	}
+																/>
+															</IonCardContent>
+														</IonCard>
+													</IonCol>
+												);
+											})}
+										</IonRow>
+									</div>
+								);
+							})
+						}
+					</IonGrid>
+				);
+			} else {
+				const result = this.state.data.filter((_element: any) =>
+					_element[1][0].number.includes(this.props.searchTerm)
+				);
+
+				return (
+					<IonGrid>
+						{
+							/* this.state.data.sort((_el1: any, _el2: any) =>
+							_el1.createdAt > _el2.createdAt
+								? -1
+								: _el1.createdAt < _el2.createdAt
+								? 1
+								: 0
+						) &&
+							// this.groupBy(this.state.data,'createdAt')
+							// && */
+							result.map((_element: any, index: number) => {
+								return (
+									<div key={index}>
+										<IonHeader>
+											<IonToolbar>
+												<IonTitle className="order-title">
+													{_element[1][0].number}
+												</IonTitle>
+												<IonCardSubtitle className="order-subtitle-person">
+													{_element[1][0].person}
+												</IonCardSubtitle>
+												<IonCardSubtitle className="order-subtitle">
+													{_element[1][0].description}
+												</IonCardSubtitle>
+											</IonToolbar>
+										</IonHeader>
+
+										<IonRow className="card-row">
+											{" "}
+											{_element[1].map((_el: any) => {
+												return (
+													<IonCol className="column">
+														<IonCard className="card">
+															<IonCardHeader>
+																<IonCardSubtitle>
+																	{new Date(_el.createdAt).toUTCString()}
+																</IonCardSubtitle>
+															</IonCardHeader>
+
+															<IonCardContent className="content">
+																<IonImg
+																	className="image"
+																	src={
+																		"https://s3-eu-central-1.amazonaws.com/" +
+																		_el.file.bucket +
+																		"/public/" +
+																		_el.file.key
+																	}
+																/>
+															</IonCardContent>
+														</IonCard>
+													</IonCol>
+												);
+											})}
+										</IonRow>
+									</div>
+								);
+							})
+						}
+					</IonGrid>
+				);
+			}
 		} else {
 			return (
 				<div>

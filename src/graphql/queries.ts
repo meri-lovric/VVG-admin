@@ -15,6 +15,7 @@ export const getTodo = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      description
     }
   }
 `;
@@ -36,6 +37,7 @@ export const listTodos = /* GraphQL */ `
         }
         createdAt
         updatedAt
+        description
       }
       nextToken
     }
