@@ -2,12 +2,12 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createTodo = /* GraphQL */ `
-  mutation CreateTodo(
-    $input: CreateTodoInput!
-    $condition: ModelTodoConditionInput
+export const createReport = /* GraphQL */ `
+  mutation CreateReport(
+    $input: CreateReportInput!
+    $condition: ModelReportConditionInput
   ) {
-    createTodo(input: $input, condition: $condition) {
+    createReport(input: $input, condition: $condition) {
       id
       number
       person
@@ -16,18 +16,18 @@ export const createTodo = /* GraphQL */ `
         region
         key
       }
+      description
       createdAt
       updatedAt
-      description
     }
   }
 `;
-export const updateTodo = /* GraphQL */ `
-  mutation UpdateTodo(
-    $input: UpdateTodoInput!
-    $condition: ModelTodoConditionInput
+export const updateReport = /* GraphQL */ `
+  mutation UpdateReport(
+    $input: UpdateReportInput!
+    $condition: ModelReportConditionInput
   ) {
-    updateTodo(input: $input, condition: $condition) {
+    updateReport(input: $input, condition: $condition) {
       id
       number
       person
@@ -36,18 +36,18 @@ export const updateTodo = /* GraphQL */ `
         region
         key
       }
+      description
       createdAt
       updatedAt
-      description
     }
   }
 `;
-export const deleteTodo = /* GraphQL */ `
-  mutation DeleteTodo(
-    $input: DeleteTodoInput!
-    $condition: ModelTodoConditionInput
+export const deleteReport = /* GraphQL */ `
+  mutation DeleteReport(
+    $input: DeleteReportInput!
+    $condition: ModelReportConditionInput
   ) {
-    deleteTodo(input: $input, condition: $condition) {
+    deleteReport(input: $input, condition: $condition) {
       id
       number
       person
@@ -56,9 +56,9 @@ export const deleteTodo = /* GraphQL */ `
         region
         key
       }
+      description
       createdAt
       updatedAt
-      description
     }
   }
 `;

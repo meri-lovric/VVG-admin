@@ -2,9 +2,9 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getTodo = /* GraphQL */ `
-  query GetTodo($id: ID!) {
-    getTodo(id: $id) {
+export const getReport = /* GraphQL */ `
+  query GetReport($id: ID!) {
+    getReport(id: $id) {
       id
       number
       person
@@ -13,19 +13,19 @@ export const getTodo = /* GraphQL */ `
         region
         key
       }
+      description
       createdAt
       updatedAt
-      description
     }
   }
 `;
-export const listTodos = /* GraphQL */ `
-  query ListTodos(
-    $filter: ModelTodoFilterInput
+export const listReports = /* GraphQL */ `
+  query ListReports(
+    $filter: ModelReportFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listTodos(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listReports(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
         number
@@ -35,9 +35,9 @@ export const listTodos = /* GraphQL */ `
           region
           key
         }
+        description
         createdAt
         updatedAt
-        description
       }
       nextToken
     }

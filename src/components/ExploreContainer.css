@@ -83,6 +83,21 @@
 	letter-spacing: 0.3em;
 	word-break: break-all;
 }
+
+.order-subtitle-desc {
+	font-family: 'Lato', sans-serif;
+	font-size: 90%;
+	font-weight: 700;
+	font-feature-settings: normal;
+	font-variant: bold;
+	color: #222;
+	text-align: center !important;
+	margin-top: 10px;
+	margin-bottom: 15px;
+	letter-spacing: 0.3em;
+	word-break: break-all;
+}
+
 .header-md::after {
 	left: 0;
 	bottom: -5px;
