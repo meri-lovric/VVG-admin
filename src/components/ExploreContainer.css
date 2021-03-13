@@ -48,7 +48,7 @@
 }
 .order-title {
 	font-family: 'Lato', sans-serif;
-	font-size: 24px;
+	font-size: 18px;
 	margin-top: 15px;
 	margin-bottom: 0px;
 	text-align: center;
@@ -61,41 +61,49 @@
 	font-weight: 400;
 	font-feature-settings: normal;
 	font-variant: normal;
-	text-transform: capitalize;
 	color: #666666;
-	margin-top: 10px;
-	margin-bottom: 15px;
+	margin-top: 5px;
+	margin-bottom: 5px;
 	letter-spacing: 0.3em;
 	word-break: break-all;
 }
 
 .order-subtitle-person {
 	font-family: 'Lato', sans-serif;
-	font-size: 60%;
-	font-weight: 700;
+	font-size: 70%;
+	font-weight: 400;
 	font-feature-settings: normal;
 	font-variant: bold;
-	text-transform: uppercase;
 	color: #666666;
 	text-align: center !important;
-	margin-top: 10px;
-	margin-bottom: 15px;
+	margin-top: 5px;
+	margin-bottom: 5px;
 	letter-spacing: 0.3em;
 	word-break: break-all;
 }
 
-.order-subtitle-desc {
+.order-subtitle {
 	font-family: 'Lato', sans-serif;
-	font-size: 90%;
-	font-weight: 700;
-	font-feature-settings: normal;
-	font-variant: bold;
+	font-size: 80%;
+	font-weight: 400;
 	color: #222;
-	text-align: center !important;
-	margin-top: 10px;
-	margin-bottom: 15px;
-	letter-spacing: 0.3em;
-	word-break: break-all;
+  letter-spacing: 1px;
+  white-space: pre-wrap;
+  word-break: keep-all;
+}
+
+.desc {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  border-left: solid 1px lightgray;
+  padding-left: 1rem;
+  overflow-wrap: normal;
+}
+
+.row-border {
+  border: solid 1px lightgray;
 }
 
 .header-md::after {

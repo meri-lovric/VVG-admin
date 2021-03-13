@@ -1,6 +1,3 @@
-import {
-  IonContent
-} from '@ionic/react';
 import React from 'react';
 import { API } from 'aws-amplify';
 import * as queries from '../graphql/queries';

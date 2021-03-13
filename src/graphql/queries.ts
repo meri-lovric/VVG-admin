@@ -25,7 +25,7 @@ export const listReports = /* GraphQL */ `
     $limit: Int
     $nextToken: String
   ) {
-    listReports(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listReports(order_by: {createdAt: desc}, filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
         number
@@ -43,3 +43,4 @@ export const listReports = /* GraphQL */ `
     }
   }
 `;
+
