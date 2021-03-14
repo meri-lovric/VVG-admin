@@ -25,7 +25,7 @@ export const listReports = /* GraphQL */ `
     $limit: Int
     $nextToken: String
   ) {
-    listReports(order_by: {createdAt: desc}, filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listReports(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
         number
@@ -44,3 +44,14 @@ export const listReports = /* GraphQL */ `
   }
 `;
 
+export const recentReports = `
+query MyQuery($today: String!, $before: String!, $limit: Int) {
+  listReports(filter: {updatedAt: { between: [$before, $today]}}, limit: $limit) {
+    items {
+      number
+      description
+      person
+      updatedAt
+    }
+  }
+}`;

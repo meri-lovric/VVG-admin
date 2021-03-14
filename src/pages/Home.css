@@ -4,8 +4,12 @@
 	padding-left: 1rem;
 	padding-right: 1rem;
 }
+
 .header-content {
 	display: flex;
 	align-items: center;
-	font-family: fantasy;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 1px;
+	/* font-family: fantasy; */
 }

@@ -14,12 +14,13 @@ const Home: React.FC = () => {
   const [searchText, setSearchText] = useState("");
   return (
     <IonPage>
-      <IonHeader>
+      <IonHeader class="ion-no-border">
         <IonToolbar>
           <IonTitle>
             {" "}
             <div className="header-content">
-              <img className="logo" src={logo} alt="logo"></img>VVG Admin
+              <img className="logo" src={logo} alt="logo"></img>
+              ADMIN
 						</div>
           </IonTitle>
         </IonToolbar>

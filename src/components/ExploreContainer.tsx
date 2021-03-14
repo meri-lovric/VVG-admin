@@ -35,7 +35,14 @@ class ExploreContainer extends React.Component<
 
   async componentDidMount() {
     try {
-      this.todos = await API.graphql(graphqlOperation(queries.listReports, { limit: 2000 }));
+      this.todos = await API.graphql(
+        graphqlOperation(queries.recentReports, {
+          today: new Date(Date.now() + 24 * 60 * 60 * 1000),
+          before: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000),
+          limit: 100000
+        })
+      )
+
       // @ts-ignore
       let posts = this.todos.data.listReports.items;
 
@@ -46,10 +53,10 @@ class ExploreContainer extends React.Component<
       var result = Object.keys(group).map((key) => [Number(key), group[key]]);
 
       function compare(a: any, b: any) {
-        if (a[1][0].createdAt > b[1][0].createdAt) {
+        if (a[1][0].updatedAt > b[1][0].updatedAt) {
           return -1;
         }
-        if (a[1][0].createdAt < b[1][0].createdAt) {
+        if (a[1][0].updatedAt < b[1][0].updatedAt) {
           return 1;
         }
         return 0;
@@ -64,45 +71,18 @@ class ExploreContainer extends React.Component<
     }
   }
 
-  /* groupBy = (objectArray: any, ...properties: any) => {
-    return [
-      ...Object.values(
-        objectArray.reduce((accumulator:any, object:any) => {
-          const key = JSON.stringify(properties.map((x: number) => object[x] || null));
-  
-          if (!accumulator[key]) {
-            accumulator[key] = [];
-          }
-          accumulator[key].push(object);
-          return accumulator;
-        }, {})
-      ),
-    ];
-  */
-  // groupBy = function (data: any, key: any) { // `data` is an array of objects, `key` is the key (or property accessor) to group by
-  //   // reduce runs this anonymous function on each element of `data` (the `item` parameter,
-  //   // returning the `storage` parameter at the end
-  //   return data.reduce(function (storage: any, item: any) {
-  //     // get the first instance of the key by which we're grouping
-  //     var group = item[key];
-  //     // set `storage` for this instance of group to the outer scope (if not empty) or initialize it
-  //     storage[group] = storage[group] || [];
-  //     // add this item to its group within `storage`
-  //     storage[group].push(item);
-  //     // return the updated storage to the reduce function, which will then loop through the next 
-
-  //     return storage;
-  //   }, {}); // {} is the initial value of the storage 
-  // };
-
-
   async fetchData() {
     this.setState({ rerenderData: this.state.rerenderData + 1 })
     try {
-      this.todos = await API.graphql(graphqlOperation(queries.listReports, { limit: 2000 }));
-      // @ts-ignore
+      this.todos = this.todos = await API.graphql(
+        graphqlOperation(queries.recentReports, {
+          today: new Date().toLocaleString() + "",
+          before: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000),
+          limit: 100000
+        })
+      )
+
       let posts = this.todos.data.listReports.items;
-      console.log(posts);
 
       let group = posts.reduce((r: any, a: any) => {
         r[a.number] = [...(r[a.number] || []), a];
@@ -111,10 +91,10 @@ class ExploreContainer extends React.Component<
       var result = Object.keys(group).map((key) => [Number(key), group[key]]);
 
       function compare(a: any, b: any) {
-        if (a[1][0].createdAt > b[1][0].createdAt) {
+        if (a[1][0].updatedAt > b[1][0].updatedAt) {
           return -1;
         }
-        if (a[1][0].createdAt < b[1][0].createdAt) {
+        if (a[1][0].updatedAt < b[1][0].updatedAt) {
           return 1;
         }
         return 0;
@@ -133,18 +113,14 @@ class ExploreContainer extends React.Component<
       if (!this.props.searchTerm) {
         return (
           <IonGrid key={this.state.rerenderData}>
-            <IonButton onClick={() => this.fetchData()}>Dohvati</IonButton>
-            <div>{this.state.rerenderData}</div>
+            <IonButton
+              onClick={() => this.fetchData()}
+              className="btn"
+            >
+              Dohvati
+              </IonButton>
+            {/* <div>{this.state.rerenderData}</div> */}
             {
-              // this.state.data.sort((_el1: any, _el2: any) =>
-              //   _el1.createdAt > _el2.createdAt
-              //     ? -1
-              //     : _el1.createdAt < _el2.createdAt
-              //       ? 1
-              //       : 0
-              // ) &&
-              // this.groupBy(this.state.data, 'createdAt')
-              // &&
               this.state.data.map((_element: any, index: number) => {
                 return (
                   <div key={index}>
@@ -178,35 +154,26 @@ class ExploreContainer extends React.Component<
         return (
           <IonGrid key={this.state.data}>
             {
-              // this.state.data.sort((_el1: any, _el2: any) =>
-              //   _el1.createdAt > _el2.createdAt
-              //     ? -1
-              //     : _el1.createdAt < _el2.createdAt
-              //       ? 1
-              //       : 0
-              // ) &&
-              // this.groupBy(this.state.data, 'createdAt')
-              // &&
               result.map((_element: any, index: number) => {
                 return (
                   <div key={index}>
-                    {/* {_element[1][0].description !== '' && */}
-                    <IonRow class="row-border">
-                      <IonCol size="4">
-                        <div className="order-title">
-                          {_element[1][0].number}
-                        </div>
-                        <div className="order-subtitle-person">
-                          {_element[1][0].person}
-                        </div>
-                      </IonCol>
-                      <IonCol size="8" className="desc">
-                        <div className="order-subtitle">
-                          {_element[1][0].description}
-                        </div>
-                      </IonCol>
-                    </IonRow>
-                    {/* } */}
+                    {_element[1][0].description !== '' &&
+                      <IonRow class="row-border">
+                        <IonCol size="4">
+                          <div className="order-title">
+                            {_element[1][0].number}
+                          </div>
+                          <div className="order-subtitle-person">
+                            {_element[1][0].person}
+                          </div>
+                        </IonCol>
+                        <IonCol size="8" className="desc">
+                          <div className="order-subtitle">
+                            {_element[1][0].description}
+                          </div>
+                        </IonCol>
+                      </IonRow>
+                    }
                   </div>
                 );
               })
