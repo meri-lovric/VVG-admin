@@ -38,7 +38,7 @@ class ExploreContainer extends React.Component<
       this.todos = await API.graphql(
         graphqlOperation(queries.recentReports, {
           today: new Date(Date.now() + 24 * 60 * 60 * 1000),
-          before: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
+          before: new Date(Date.now() - 45 * 24 * 60 * 60 * 1000),
           limit: 100000
         })
       )
@@ -77,7 +77,7 @@ class ExploreContainer extends React.Component<
       this.todos = this.todos = await API.graphql(
         graphqlOperation(queries.recentReports, {
           today: new Date().toLocaleString() + "",
-          before: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
+          before: new Date(Date.now() - 45 * 24 * 60 * 60 * 1000),
           limit: 100000
         })
       )
@@ -108,6 +108,11 @@ class ExploreContainer extends React.Component<
     }
   }
 
+  toLocal(dateISO: any) {
+    let date = new Date(dateISO);
+    return (date.toLocaleString('en-GB'));
+  }
+
   render() {
     if (this.state.isLoaded) {
       if (!this.props.searchTerm) {
@@ -118,7 +123,7 @@ class ExploreContainer extends React.Component<
               className="btn"
             >
               Dohvati
-              </IonButton>
+            </IonButton>
             {/* <div>{this.state.rerenderData}</div> */}
             {
               this.state.data.map((_element: any, index: number) => {
@@ -126,7 +131,7 @@ class ExploreContainer extends React.Component<
                   <div key={index}>
                     {_element[1][0].description !== '' &&
                       <IonRow class="row-border">
-                        <IonCol size="4">
+                        <IonCol size="3">
                           <div className="order-title">
                             {_element[1][0].number}
                           </div>
@@ -134,7 +139,12 @@ class ExploreContainer extends React.Component<
                             {_element[1][0].person}
                           </div>
                         </IonCol>
-                        <IonCol size="8" className="desc">
+                        <IonCol size="2" className="desc ion-hide-md-down">
+                          <div className="order-subtitle">
+                            {this.toLocal(_element[1][0].updatedAt)}
+                          </div>
+                        </IonCol>
+                        <IonCol size="7" className="desc">
                           <div className="order-subtitle">
                             {_element[1][0].description}
                           </div>
@@ -159,7 +169,7 @@ class ExploreContainer extends React.Component<
                   <div key={index}>
                     {_element[1][0].description !== '' &&
                       <IonRow class="row-border">
-                        <IonCol size="4">
+                        <IonCol size="3">
                           <div className="order-title">
                             {_element[1][0].number}
                           </div>
@@ -167,13 +177,17 @@ class ExploreContainer extends React.Component<
                             {_element[1][0].person}
                           </div>
                         </IonCol>
-                        <IonCol size="8" className="desc">
+                        <IonCol size="2" className="desc ion-hide-md-down">
+                          <div className="order-subtitle">
+                            {this.toLocal(_element[1][0].updatedAt)}
+                          </div>
+                        </IonCol>
+                        <IonCol size="7" className="desc">
                           <div className="order-subtitle">
                             {_element[1][0].description}
                           </div>
                         </IonCol>
-                      </IonRow>
-                    }
+                      </IonRow>}
                   </div>
                 );
               })
