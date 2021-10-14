@@ -76,7 +76,7 @@ class ExploreContainer extends React.Component<
     try {
       this.todos = this.todos = await API.graphql(
         graphqlOperation(queries.recentReports, {
-          today: new Date().toLocaleString() + "",
+          today: new Date(Date.now() + 24 * 60 * 60 * 1000),
           before: new Date(Date.now() - 45 * 24 * 60 * 60 * 1000),
           limit: 100000
         })
